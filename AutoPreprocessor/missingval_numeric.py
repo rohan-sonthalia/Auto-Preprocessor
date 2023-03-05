@@ -8,12 +8,14 @@ from sklearn.model_selection import train_test_split as tts
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.impute import KNNImputer
-
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
 
 
 class Missing_Values_Numerical(self):
 
-    def numerical(self, df, paramaxis):
+    def numerical(self, df):
 
         #separates numeric columns
         df_numeric = df._get_numeric_data()
@@ -83,6 +85,25 @@ class Missing_Values_Numerical(self):
                     pred = lr.predict(testdf)
                     testdf[col]= pred
                     traindf[col]=y
+                    
+                       
+    def categorical_values(self,df):
+            cols = df.columns
+            num_cols = df._get_numeric_data().columns
+            cat_cols = list(set(cols) — set(num_cols))               
 
-
+            imp = SimpleImputer(strategy="most_frequent")
+            df_cat = pd.DataFrame(imp.fit_transform(df_cat), columns=cat_cols)
+            
+            df_label= df_cat.apply(LabelEncoder().fit_transform)
+            
+            ohe = OneHotEncoder()
+            ohe.fit(df_label[cat_cols])
+            df_ohe = ohe.transform(df_label[cat_cols])
+            
+            df_cat = pd.DataFrame(df_ohe.toarray())
+            
+                       
+                    
+           
 
