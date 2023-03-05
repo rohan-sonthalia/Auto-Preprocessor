@@ -10,10 +10,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.impute import KNNImputer
 
 
-df = pd.read_csv(dataset)
-print (df.isnull().sum())
-df.info()
-
 
 class Missing_Values_Numerical(self):
 
