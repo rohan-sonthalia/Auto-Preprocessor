@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import sys
@@ -12,11 +13,9 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
-
-class missingVals(self):
+class missingVals:
 
     def numerical(self, df):
-
         #separates numeric columns
         df_numeric = df._get_numeric_data()
         df_numeric.info()
@@ -42,8 +41,8 @@ class missingVals(self):
             for col in df_numeric.columns:
                 if df_numeric[col].isnull().sum() > 0:
                     y1=updated_df[col]
-                    X_train, X_test,y_train,y_test = train_test_split(updated_df,y1,test_size=0.3)
-                    lr = LogisitcRegression()
+                    X_train, X_test,y_train,y_test = tts(updated_df,y1,test_size=0.3)
+                    lr = LogisticRegression()
                     lr.fit(X_train,y_train)
                     pred = lr.predict(X_test)
                     print(metrics.accuracy_score(pred,y_test))
@@ -88,9 +87,7 @@ class missingVals(self):
                     
                        
     def categorical_values(self,df):
-            cols = df.columns
-            num_cols = df._get_numeric_data().columns
-            cat_cols = list(set(cols) — set(num_cols))               
+            cat_cols = set(df.columns) ^ set(df.select_dtypes(include=np.number).columns)      
 
             imp = SimpleImputer(strategy="most_frequent")
             df_cat = pd.DataFrame(imp.fit_transform(df_cat), columns=cat_cols)
