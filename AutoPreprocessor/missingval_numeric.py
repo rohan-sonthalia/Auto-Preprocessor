@@ -13,14 +13,14 @@ from sklearn.impute import KNNImputer
 
 class Missing_Values_Numerical(self):
 
-    def numerical(self, df, option, paramaxis):
+    def numerical(self, df, paramaxis):
 
         #separates numeric columns
         df_numeric = df._get_numeric_data()
         df_numeric.info()
 
 
-        if option=='auto':
+        if self.option=='auto':
             #adds 2 extra columns with mean and median, deletes original column
             for col in df_numeric.columns:
                 if df_numeric[col].isnull().sum() > 0:
@@ -28,14 +28,14 @@ class Missing_Values_Numerical(self):
                     df_numeric[str(col) + '_median'] = df_numeric[col].fillna(df_numeric[col].median())
                     df_numeric.dropna(axis='columns')
 
-        elif option=='delete':
+        elif self.option=='delete':
             #drops missing values from dataset
             for col in df_numeric.columns:
                 if df_numeric[col].isnull().sum() > 0:
                     df_numeric.dropna(inplace=True) #drops rows with missing values
                     df_numeric.reset_index(drop=True)
 
-        elif option=='logreg':
+        elif self.option=='logreg':
             #predicts missing values using linear regression algorithm
             for col in df_numeric.columns:
                 if df_numeric[col].isnull().sum() > 0:
@@ -46,30 +46,30 @@ class Missing_Values_Numerical(self):
                     pred = lr.predict(X_test)
                     print(metrics.accuracy_score(pred,y_test))
      
-        elif option=='knn':
+        elif self.option=='knn':
             #predicts missing values using knn
             imputer = KNNImputer(n_neighbors=5)
             imputer.fit_transform(df_numeric)
 
-        elif option=='mean':
+        elif self.option=='mean':
             #replaces missing values with mean
             for col in df_numeric.columns:
                 if df_numeric[col].isnull().sum() > 0:
                     df_numeric[col].fillna(df.numeric[col].mean())
 
-        elif option=='median':
+        elif self.option=='median':
             #replaces missing values with median
             for col in df_numeric.columns:
                 if df_numeric[col].isnull().sum() > 0:
                     df_numeric[col].fillna(df.numeric[col].median())
 
-        elif option=='mode':
+        elif self.option=='mode':
             #replaces missing values with mode
             for col in df_numeric.columns:
                 if df_numeric[col].isnull().sum() > 0:
                     df_numeric[col].fillna(df.numeric[col].mode())
 
-        elif option=='linreg':
+        elif self.option=='linreg':
             #predicts missing values with linear regression
             for col in df_numeric.columns:
                 if df_numeric[col].isnull().sum() > 0:
