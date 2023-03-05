@@ -23,6 +23,7 @@ class AutoPreProcess:
     def _clean_data(self, df):
         df = df.reset_index(drop=True)
         df = missingVals.numerical(self, df)
+        df = missingVals.categorical_values(self, df)
         if self.duplicates:
             df = duplicates.handle(self, df)
         if self.outliers:
