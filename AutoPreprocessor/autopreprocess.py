@@ -22,7 +22,8 @@ class AutoPreProcess:
             
     def _clean_data(self, df):
         df = df.reset_index(drop=True)
-        df = missingVals.handle(self, df)
+        df = missingVals.numerical(self, df)
+        df = missingVals.categorical_values(self, df)
         if self.duplicates:
             df = duplicates.handle(self, df)
         if self.outliers:
@@ -30,5 +31,5 @@ class AutoPreProcess:
         if self.extract_datetime:    
             df = dateTime.convert_datetime(self, df)
         if self.bool:
-            df = boolean.handle(self,df)
+            df = boolean.convert(self,df)
         return df 
