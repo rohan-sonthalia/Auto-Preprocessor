@@ -41,7 +41,7 @@ class missingVals(self):
             #predicts missing values using linear regression algorithm
             for col in df_numeric.columns:
                 if df_numeric[col].isnull().sum() > 0:
-                    y1=updated_df[col]
+                    y1=df_numeric[col]
                     X_train, X_test,y_train,y_test = train_test_split(updated_df,y1,test_size=0.3)
                     lr = LogisitcRegression()
                     lr.fit(X_train,y_train)
