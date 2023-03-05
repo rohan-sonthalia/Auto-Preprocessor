@@ -13,7 +13,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
 
-class missingVals():
+class missingVals:
 
     def numerical(self, df):
 
