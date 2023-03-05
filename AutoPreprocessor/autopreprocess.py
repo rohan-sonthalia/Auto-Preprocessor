@@ -5,7 +5,7 @@ from AutoPreprocessor import duplicates
 from AutoPreprocessor import missingVals
 from AutoPreprocessor import outliers
 
-class AutoClean:
+class AutoPreProcess:
 
     def __init__(self, input_data, missingVal = "auto", duplicates=False, bool=False, extract_datetime=False, outliers=False, outlier_param=1.5):        
         output_data = input_data.copy()
